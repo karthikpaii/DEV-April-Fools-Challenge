@@ -7,6 +7,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const loader = document.getElementById("loader");
     const result = document.getElementById("result");
     const resultText = document.getElementById("result-text");
+    const subText = document.getElementById("sub-text");
+    const locationPrompt = document.getElementById("location-prompt");
+    const allowBtn = document.getElementById("allow-btn");
+    const denyBtn = document.getElementById("deny-btn");
 
     const snarkyAnswers = [
         "Did you really need to search that?",
@@ -39,12 +43,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Simulate network request
         setTimeout(() => {
-            const randomAnswer = snarkyAnswers[Math.floor(Math.random() * snarkyAnswers.length)];
-            
             loader.classList.add("hidden");
             result.classList.remove("hidden");
             
-            resultText.textContent = randomAnswer;
+            if (query.toLowerCase() === "how to learn java in 1 day") {
+                resultText.textContent = "Mental Hospital wants to know your location";
+                subText.classList.add("hidden");
+                locationPrompt.classList.remove("hidden");
+            } else {
+                const randomAnswer = snarkyAnswers[Math.floor(Math.random() * snarkyAnswers.length)];
+                resultText.textContent = randomAnswer;
+                subText.classList.remove("hidden");
+                locationPrompt.classList.add("hidden");
+            }
         }, 1500); // 1.5 second loading delay for dramatic effect
     }
 
@@ -97,6 +108,22 @@ document.addEventListener("DOMContentLoaded", () => {
                 searchInput.placeholder = originalPlaceholder;
                 handleSearch();
             }, 3000);
+        });
+    }
+
+    if (allowBtn) {
+        allowBtn.addEventListener("click", () => {
+            alert("Ambulance dispatched! Please do not leave your current location.");
+            locationPrompt.classList.add("hidden");
+            subText.classList.remove("hidden");
+        });
+    }
+    
+    if (denyBtn) {
+        denyBtn.addEventListener("click", () => {
+            alert("Location access denied. But honestly... seeking help is recommended.");
+            locationPrompt.classList.add("hidden");
+            subText.classList.remove("hidden");
         });
     }
 });
